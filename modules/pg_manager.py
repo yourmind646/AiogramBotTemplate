@@ -1,17 +1,30 @@
 # PostgreSQL import
 import psycopg2
 
+# My modules
+from modules.cfg_loader import load_config
+
+# Another
+import logging
+
+
 # Connect to pg server
 try:
+	# load config
+	db_config = load_config("cfg/db_config.json")
+
+	# init connection
 	connection = psycopg2.connect(
-		host = 'localhost',
-		user = 'postgres',
-		password = 'diman030405',
-		database = 'birzha'
+		host = db_config.get("host"),
+		user = db_config.get("user"),
+		password = db_config.get("password"),
+		database = db_config.get("database")
 	)
+
+	# enable autocommit
 	connection.autocommit = True
 except Exception as _ex:
-	print(f'[INFO] Error while connecting to pdb - {_ex}')
+	logging.error(f'Error while connecting to pdb - {_ex}')
 
 
 class PSQLManager:

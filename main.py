@@ -1,9 +1,8 @@
 # Aiogram imports
 from aiogram import Bot, Dispatcher, executor
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 # Handlers
-from handlers.errors import load_errors_handler
 from handlers.start import load_start_handler
 
 # My modules
@@ -17,28 +16,16 @@ config = cfg_loader.load_config()
 
 # Initialize bot object
 bot = Bot(token = config["BOT_API_TOKEN"])
-storage = MemoryStorage() # for FSM
+storage = RedisStorage2("127.0.0.1", 6379, db = 5, pool_size = 10, prefix = "proj") # for FSM
 dp = Dispatcher(bot, storage = storage)
 
 
 if __name__ == "__main__":
 
-	# Load errors handler
-	load_errors_handler(
-		dispatcher = dp
-	)
-
 	# Load handlers
 	load_start_handler(
-		bot = bot,
 		dispatcher = dp
 	)
-
-	# Load handlers
-	# load_admin_handler(
-	# 	bot = bot,
-	# 	dispatcher = dp
-	# )
 
 	# create loop
 	loop = asyncio.new_event_loop()

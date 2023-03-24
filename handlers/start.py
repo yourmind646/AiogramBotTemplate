@@ -1,27 +1,22 @@
 # Aiogram imports
-from aiogram import Dispatcher, filters, types, Bot
+from aiogram import Dispatcher, filters, types
 from aiogram.types.message import ParseMode
 from aiogram.dispatcher import FSMContext
 
-# My imports
-# ...
-
-# Another import
-# ...
-
 
 # loader
-def load_start_handler(bot: Bot, dispatcher: Dispatcher):
+def load_start_handler(dispatcher: Dispatcher):
 
 	# init
 	global g_bot
-	g_bot = bot
+	g_bot = dispatcher.bot
 
 	# Register handlers
-	dispatcher.register_message_handler(process_start, filters.Command(
-		commands = ["start"],
-		prefixes = ["/"]
-	), state = "*")
+	dispatcher.register_message_handler(
+		process_start,
+		filters.CommandStart(),
+		state = "*"
+	)
 
 
 async def process_start(message: types.Message, state: FSMContext):
