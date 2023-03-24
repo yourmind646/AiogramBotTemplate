@@ -10,6 +10,13 @@ from modules import cfg_loader
 
 # Another imports
 import asyncio
+import logging
+
+# init logging
+logging.basicConfig(
+	level = logging.INFO,
+	format = u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
+)
 
 # Loading cfg
 config = cfg_loader.load_config()
