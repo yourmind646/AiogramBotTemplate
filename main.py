@@ -46,6 +46,7 @@ if __name__ == "__main__":
 	)
 	
 	loop.create_task(orm.proceed_schemas())
+	loop.create_task(bot.set_my_commands(start_command))
 
 	# Start long-polling
 	executor.start_polling(dp, skip_updates = False)
