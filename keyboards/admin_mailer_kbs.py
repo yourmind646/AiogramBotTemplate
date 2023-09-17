@@ -82,14 +82,14 @@ def get_mailer_finish_kb():
 	return reply_markup
 
 
-def get_mailer_btn_ikb(buttons_preset: list[str]):
-
-	if btn_preset is None:
+def get_mailer_btn_ikb(buttons_preset: str):
+	
+	if buttons_preset is None:
 		return
 
 	inline_markup = InlineKeyboardMarkup(row_width = 1)
 
-	for btn_preset in buttons_preset:
+	for btn_preset in buttons_preset.split("\n"):
 		btn_data = [x.strip() for x in btn_preset.split("+")]
 		btn_name = btn_data[0]
 		btn_url = btn_data[1]
