@@ -54,7 +54,7 @@ def get_add_admins_kb():
 	)
 
 	exit_btn = KeyboardButton(
-		text = "🔚 Вернуться в меню"
+		text = "🔙 Вернуться в меню"
 	)
 
 	reply_markup.add(_1, _2, exit_btn)
