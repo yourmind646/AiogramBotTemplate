@@ -8,6 +8,9 @@ from database.orm import ORM as orm
 # States
 from states.main_states import MainStates
 
+# Modules
+from modules.to_html import to_html
+
 # Another
 from datetime import datetime
 
@@ -35,7 +38,7 @@ async def process_start(message: types.Message, state: FSMContext):
 	# Get user data
 	user_id = message.from_user.id
 	username = "@" + message.from_user.username if message.from_user.username is not None else "-"
-	fullname = message.from_user.full_name
+	fullname = to_html(message.from_user.full_name)
 	
 	# Create row
 	await orm.create_user_if_not_exists(

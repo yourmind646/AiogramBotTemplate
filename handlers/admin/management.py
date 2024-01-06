@@ -90,7 +90,7 @@ async def add_admins_ADD_2(message: types.Message, state: FSMContext):
 	# validation
 	if not message.text.isdigit():
 		await message.answer(
-			text = "🔴 Только цифры! Повторите попытку:"
+			text = "⛔️ Только цифры! Повторите попытку:"
 		)
 
 		return
@@ -99,7 +99,7 @@ async def add_admins_ADD_2(message: types.Message, state: FSMContext):
 
 	if not await orm.is_user_exists(admin_id):
 		await message.answer(
-			text = "🔴 Пользователь не существует в БД! Повторите попытку:"
+			text = "⛔️ Пользователь не существует в БД! Повторите попытку:"
 		)
 
 		return
@@ -133,16 +133,15 @@ async def add_admins_DEL_2(message: types.Message, state: FSMContext):
 	# validation
 	if not message.text.isdigit():
 		await message.answer(
-			text = "🔴 Только цифры! Повторите попытку:"
+			text = "⛔️ Только цифры! Повторите попытку:"
 		)
-
 		return
 
 	admin_id = int(message.text)
 
 	if not await orm.is_user_exists(admin_id):
 		await message.answer(
-			text = "🔴 Пользователь не существует в БД! Повторите попытку:"
+			text = "⛔️ Пользователь не существует в БД! Повторите попытку:"
 		)
 
 		return
@@ -166,7 +165,7 @@ async def add_admins_DEL_2(message: types.Message, state: FSMContext):
 		await orm.del_admin(admin_id)
 
 		await message.answer("✅ Успешно")
-	except Exception as e:
-		await message.answer("🔴 Ошибка!")
+	except:
+		await message.answer("⛔️ Ошибка!")
 
 	await add_admins_choose(message, state)
