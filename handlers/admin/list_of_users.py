@@ -46,7 +46,7 @@ async def process_list_of_users(message: types.Message, state: FSMContext):
 		sheet.cell(row = row, column = 1, value = user.user_id)
 		sheet.cell(row = row, column = 2, value = user.username)
 		sheet.cell(row = row, column = 3, value = user.fullname)
-		sheet.cell(row = row, column = 3, value = user.register_date.strftime(r"%d-%m-%y %H:%M"))
+		sheet.cell(row = row, column = 4, value = user.register_date.strftime(r"%d-%m-%y %H:%M"))
 
 	# save book
 	book.save(table_path)
