@@ -141,7 +141,7 @@ async def process_mailer_text_2(message: types.Message, state: FSMContext):
 async def process_mailer_text_3(message: types.Message, state: FSMContext):
 
 	async with state.proxy() as storage:
-		storage["admin_mailer_link"] = message.text if message.text != "↪️ Пропустить" else None
+		storage["admin_mailer_link"] = message.text.split("\n") if message.text != "↪️ Пропустить" else None
 		admin_mailer_text = storage.get("admin_mailer_text")
 		admin_mailer_link = storage.get("admin_mailer_link")
 
@@ -256,7 +256,7 @@ async def process_mailer_image_3(message: types.Message, state: FSMContext):
 async def process_mailer_image_4(message: types.Message, state: FSMContext):
 
 	async with state.proxy() as storage:
-		storage["admin_mailer_link"] = message.text if message.text != "↪️ Пропустить" else None
+		storage["admin_mailer_link"] = message.text.split("\n") if message.text != "↪️ Пропустить" else None
 		admin_mailer_link = storage.get("admin_mailer_link")
 		caption = storage.get("admin_mailer_caption")
 		photo = storage.get("admin_mailer_image")
