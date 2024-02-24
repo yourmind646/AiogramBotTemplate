@@ -46,20 +46,6 @@ dp = Dispatcher(bot, storage = storage)
 start_command = [BotCommand(command = "/start", description = "🔄 Перезапустить бота")]
 
 
-async def on_startup(dp: Dispatcher):
-	# get all admins
-	all_admins = await orm.get_all_admins()
-
-	for admin in all_admins:
-		try:
-			await bot.send_message(
-				chat_id = admin.admin_user_id,
-				text = "🤖 Бот запущен!"
-			)
-		except:
-			pass
-
-
 async def on_shutdown(dp: Dispatcher):
 	logging.warning('Shutting down..')
 	await dp.storage.close()
@@ -108,4 +94,4 @@ if __name__ == "__main__":
 	loop.create_task(orm.create_admin_if_not_exists(872114089, "@RubyHunter", "ruby"))
 
 	# Start long-polling
-	executor.start_polling(dp, skip_updates = True, loop = loop, on_shutdown = on_shutdown, on_startup = on_startup)
+	executor.start_polling(dp, skip_updates = True, loop = loop, on_shutdown = on_shutdown)
