@@ -84,7 +84,7 @@ def get_mailer_finish_kb():
 
 def get_mailer_btn_ikb(buttons_preset: list[str]):
 
-	if btn_preset is None:
+	if buttons_preset is None:
 		return
 
 	inline_markup = InlineKeyboardMarkup(row_width = 1)
