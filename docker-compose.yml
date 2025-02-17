@@ -1,0 +1,69 @@
+services:
+  tgbot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    container_name: tgbot
+    restart: unless-stopped
+    env_file:
+      - ./bot/.env
+    environment:
+      - REDIS_URL=redis://redisdb:6379/0
+      - POSTGRES_HOST=postgredb
+      - POSTGRES_PORT=5432
+    depends_on:
+      redisdb:
+        condition: service_healthy
+      postgredb:
+        condition: service_healthy
+    command: python aiogram_run.py
+
+  webhooks:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    container_name: webhooks
+    restart: unless-stopped
+    env_file:
+      - ./bot/.env
+    command: uvicorn webhooks:app --host 0.0.0.0 --port 8000
+    depends_on:
+      postgredb:
+        condition: service_healthy
+
+  redisdb:
+    image: redis:6-alpine
+    restart: unless-stopped
+    container_name: redisdb
+    env_file:
+      - ./bot/.env
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgredb:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    container_name: postgredb
+    env_file:
+      - ./bot/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ruby -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - webhooks
